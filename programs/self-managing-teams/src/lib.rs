@@ -20,7 +20,7 @@ pub mod self_managing_teams {
 pub struct Initialize<'info> {
     #[account(init,
               payer = signer,
-              space = size_of::<TeamMembers>() + 8)]
+              space = size_of::<TeamMembers>() + size_of::<TeamMember>()*5 + 8)]
     pub team_members: Account<'info, TeamMembers>,
 
     #[account(mut)]
