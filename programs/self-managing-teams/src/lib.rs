@@ -11,9 +11,6 @@ pub mod self_managing_teams {
         Ok(())
     }
 
-    pub fn add_myself(ctx: Context<AddMyself>) -> Result<()> {
-        Ok(())
-    }
 }
 
 #[derive(Accounts)]
@@ -27,11 +24,6 @@ pub struct Initialize<'info> {
     pub signer: Signer<'info>,
 
     pub system_program: Program<'info, System>,
-}
-
-#[derive(Accounts)]
-pub struct AddMyself {
-
 }
 
 #[account]
