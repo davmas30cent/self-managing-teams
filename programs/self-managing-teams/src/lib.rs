@@ -26,6 +26,11 @@ pub struct Initialize<'info> {
     pub system_program: Program<'info, System>,
 }
 
+#[derive(Accounts)]
+pub struct CreateTeamMember<'info> {
+    pub team_member: Account<'info, TeamMember>
+}
+
 #[account]
 pub struct TeamMembers {
     members: Vec<TeamMember>
@@ -35,5 +40,5 @@ pub struct TeamMembers {
 pub struct TeamMember {
     name: String,
     role: String,
-    pubkey: String
+    pubkey: Pubkey
 }
