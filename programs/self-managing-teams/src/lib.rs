@@ -11,6 +11,15 @@ pub mod self_managing_teams {
         Ok(())
     }
 
+    pub fn create_team_member_account(ctx: Context<CreateTeamMember>,
+                                      name: String,
+                                      role: String) -> Result<()> {
+        ctx.accounts.team_member.name = name;
+        ctx.accounts.team_member.role = role;
+        ctx.accounts.team_member.pubkey = ctx.accounts.team_member.pubkey;
+        Ok(())
+    }
+
 }
 
 #[derive(Accounts)]
@@ -28,17 +37,25 @@ pub struct Initialize<'info> {
 
 #[derive(Accounts)]
 pub struct CreateTeamMember<'info> {
-    pub team_member: Account<'info, TeamMember>
+    #[account(init,
+              payer = signer,
+              space = size_of::<TeamMember>() + 8)]
+    pub team_member: Account<'info, TeamMember>,
+
+    #[account(mut)]
+    pub signer: Signer<'info>,
+
+    pub system_program: Program<'info, System>,
 }
 
 #[account]
 pub struct TeamMembers {
-    members: Vec<TeamMember>
+    pub members: Vec<TeamMember>
 }
 
 #[account]
 pub struct TeamMember {
-    name: String,
-    role: String,
-    pubkey: Pubkey
+    pub name: String,
+    pub role: String,
+    pub pubkey: Pubkey
 }

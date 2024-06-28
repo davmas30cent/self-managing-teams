@@ -9,17 +9,30 @@ describe("self-managing-teams", () => {
 
   const program = anchor.workspace.SelfManagingTeams as Program<SelfManagingTeams>;
 
-  const newAccountKp = Keypair.generate();
+  const teamMembersKp = Keypair.generate();
 
   it("Is initialized!", async () => {
     // Add your test here.
     const tx = await program.methods
                 .initialize()
                 .accounts({
-                  teamMembers: newAccountKp.publicKey,
+                  teamMembers: teamMembersKp.publicKey,
                 })
-                .signers([newAccountKp])
+                .signers([teamMembersKp])
                 .rpc();
     console.log("Your transaction signature", tx);
   });
+
+  const davidsKp = Keypair.generate();
+
+  it ("Added member!", async () => {
+    const tx = await program.methods
+                .createTeamMemberAccount("David", "Prodsec Engineer")
+                .accounts({
+                  teamMember: davidsKp.publicKey
+                })
+                .signers([davidsKp])
+                .rpc()
+    console.log("Your transaction signature", tx);
+  })
 });
